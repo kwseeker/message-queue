@@ -31,7 +31,7 @@ services:
     container_name: rmqbroker1m
     ports:
       #- 10909:10909
-      - 10811:10911
+      - 10811:10811
     volumes:
       - ./rmqbroker1m/logs:/opt/logs
       - ./rmqbroker1m/store:/opt/store
@@ -45,7 +45,7 @@ services:
     container_name: rmqbroker1s
     ports:
       #- 10909:10909
-      - 10711:10911
+      - 10711:10711
     volumes:
       - ./rmqbroker1s/logs:/opt/logs
       - ./rmqbroker1s/store:/opt/store
@@ -58,7 +58,7 @@ services:
     container_name: rmqbroker2m
     ports:
       #- 10909:10909
-      - 10611:10911
+      - 10611:10611
     volumes:
       - ./rmqbroker2m/logs:/opt/logs
       - ./rmqbroker2m/store:/opt/store
@@ -71,7 +71,7 @@ services:
     container_name: rmqbroker2s
     ports:
       #- 10909:10909
-      - 10511:10911
+      - 10511:10511
     volumes:
       - ./rmqbroker2s/logs:/opt/logs
       - ./rmqbroker2s/store:/opt/store
