@@ -1,0 +1,90 @@
+version: '3'
+services:
+  # 两个命名服务
+  rmqnamesrv1:
+    image: ${ROCKETMQ_SERVER_IMAGE}
+    container_name: rmqnamesrv1
+    ports:
+      - 9877:9876
+    volumes:
+      - ./rmqnamesrv1/logs:/opt/logs
+      - ./rmqnamesrv1/store:/opt/store
+    #减小内存分配
+    environment:
+      JAVA_OPTS: " -Duser.home=/opt"
+      JAVA_OPT_EXT: "-server -Xms128m -Xmx128m -Xmn128m"
+  rmqnamesrv2:
+    image: ${ROCKETMQ_SERVER_IMAGE}
+    container_name: rmqnamesrv2
+    ports:
+      - 9878:9876
+    volumes:
+      - ./rmqnamesrv2/logs:/opt/logs
+      - ./rmqnamesrv2/store:/opt/store
+    environment:
+      JAVA_OPTS: " -Duser.home=/opt"
+      JAVA_OPT_EXT: "-server -Xms128m -Xmx128m -Xmn128m"
+
+  # 2m2s broker
+  rmqbroker1m:
+    image: ${ROCKETMQ_BROKER_IMAGE}
+    container_name: rmqbroker1m
+    ports:
+      #- 10909:10909
+      - 10811:10911
+    volumes:
+      - ./rmqbroker1m/logs:/opt/logs
+      - ./rmqbroker1m/store:/opt/store
+      # 此镜像容器启动时会自动加载 /etc/rocketmq/broker.conf
+      - ./rocketmqconf/broker1m.conf:/etc/rocketmq/broker.conf
+    environment:
+      JAVA_OPTS: " -Duser.home=/opt"
+      JAVA_OPT_EXT: " -server -Xms128m -Xmx128m -Xmn128m"
+  rmqbroker1s:
+    image: ${ROCKETMQ_BROKER_IMAGE}
+    container_name: rmqbroker1s
+    ports:
+      #- 10909:10909
+      - 10711:10911
+    volumes:
+      - ./rmqbroker1s/logs:/opt/logs
+      - ./rmqbroker1s/store:/opt/store
+      - ./rocketmqconf/broker1s.conf:/etc/rocketmq/broker.conf
+    environment:
+      JAVA_OPTS: " -Duser.home=/opt"
+      JAVA_OPT_EXT: "-server -Xms128m -Xmx128m -Xmn128m"
+  rmqbroker2m:
+    image: ${ROCKETMQ_BROKER_IMAGE}
+    container_name: rmqbroker2m
+    ports:
+      #- 10909:10909
+      - 10611:10911
+    volumes:
+      - ./rmqbroker2m/logs:/opt/logs
+      - ./rmqbroker2m/store:/opt/store
+      - ./rocketmqconf/broker2m.conf:/etc/rocketmq/broker.conf
+    environment:
+      JAVA_OPTS: " -Duser.home=/opt"
+      JAVA_OPT_EXT: "-server -Xms128m -Xmx128m -Xmn128m"
+  rmqbroker2s:
+    image: ${ROCKETMQ_BROKER_IMAGE}
+    container_name: rmqbroker2s
+    ports:
+      #- 10909:10909
+      - 10511:10911
+    volumes:
+      - ./rmqbroker2s/logs:/opt/logs
+      - ./rmqbroker2s/store:/opt/store
+      - ./rocketmqconf/broker2s.conf:/etc/rocketmq/broker.conf
+    environment:
+      JAVA_OPTS: " -Duser.home=/opt"
+      JAVA_OPT_EXT: "-server -Xms128m -Xmx128m -Xmn128m"
+
+  #rocketmq-console-ng
+  rmqconsole-2m2s:
+    image: ${ROCKETMQ_CONSOLE_IMAGE}
+    container_name: rmqconsole-2m2s
+    ports:
+      - 28080:8080
+    environment:
+      JAVA_OPTS: "-Drocketmq.namesrv.addr=192.168.1.100:9877;192.168.1.100:9878 -Dcom.rocketmq.sendMessageWithVIPChannel=false"

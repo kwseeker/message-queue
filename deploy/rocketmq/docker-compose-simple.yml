@@ -1,0 +1,41 @@
+version: '3'
+services:
+  # 一个命名服务
+  rmqnamesrv:
+    image: ${ROCKETMQ_SERVER_IMAGE}
+    container_name: rmqnamesrv
+    ports:
+      - 9876:9876
+    volumes:
+      - ./rmqnamesrv/logs:/opt/logs
+      - ./rmqnamesrv/store:/opt/store
+    #减小内存分配
+    environment:
+      JAVA_OPTS: " -Duser.home=/opt"
+      JAVA_OPT_EXT: "-server -Xms128m -Xmx128m -Xmn128m"
+
+  #一个主broker
+  rmqbroker:
+    image: ${ROCKETMQ_BROKER_IMAGE}
+    container_name: rmqbroker
+    ports:
+      - 10909:10909
+      - 10911:10911
+    volumes:
+      - ./rmqbroker/logs:/opt/logs
+      - ./rmqbroker/store:/opt/store
+      # 此镜像容器启动时会自动加载 /etc/rocketmq/broker.conf
+      - ./rocketmqconf/broker.conf:/etc/rocketmq/broker.conf
+    environment:
+      JAVA_OPTS: " -Duser.home=/opt"
+      JAVA_OPT_EXT: " -server -Xms128m -Xmx128m -Xmn128m"
+
+  #rocketmq-console-ng
+  rmqconsole:
+    image: ${ROCKETMQ_CONSOLE_IMAGE}
+    container_name: rmqconsole
+    ports:
+      - 18080:8080
+    environment:
+      # 注意这里 -Drocketmq.namesrv.addr 必须是ip地址，不能填容器名
+      JAVA_OPTS: "-Drocketmq.namesrv.addr=192.168.1.100:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false"
