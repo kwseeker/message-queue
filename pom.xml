@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>kafka</module>
+        <module>rocketmq</module>
     </modules>
 
     <name>message-queue</name>

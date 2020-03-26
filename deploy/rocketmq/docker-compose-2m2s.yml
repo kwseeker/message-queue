@@ -30,7 +30,7 @@ services:
     image: ${ROCKETMQ_BROKER_IMAGE}
     container_name: rmqbroker1m
     ports:
-      #- 10909:10909
+      - 10809:10809
       - 10811:10811
     volumes:
       - ./rmqbroker1m/logs:/opt/logs
@@ -44,7 +44,7 @@ services:
     image: ${ROCKETMQ_BROKER_IMAGE}
     container_name: rmqbroker1s
     ports:
-      #- 10909:10909
+      - 10709:10709
       - 10711:10711
     volumes:
       - ./rmqbroker1s/logs:/opt/logs
@@ -57,7 +57,7 @@ services:
     image: ${ROCKETMQ_BROKER_IMAGE}
     container_name: rmqbroker2m
     ports:
-      #- 10909:10909
+      - 10609:10609
       - 10611:10611
     volumes:
       - ./rmqbroker2m/logs:/opt/logs
@@ -70,7 +70,7 @@ services:
     image: ${ROCKETMQ_BROKER_IMAGE}
     container_name: rmqbroker2s
     ports:
-      #- 10909:10909
+      - 10509:10509
       - 10511:10511
     volumes:
       - ./rmqbroker2s/logs:/opt/logs
