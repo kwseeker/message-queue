@@ -36,7 +36,7 @@ public class OrderedProducer {
             /**
              * MessageQueueSelector
              * 功能：通过给定的实现配合Topic现有队列和orderId，决定消息应该写入到哪些队列
-             *
+             * !!! 说白了就是将同一个事务的多个操作按顺序入队列。
              */
             SendResult sendResult = producer.send(msg, new MessageQueueSelector() {
                 @Override
