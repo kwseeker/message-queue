@@ -1,54 +1,58 @@
 version: '2.2'
 
+# 集群测试：
+# docker exec -it zooX bash
+# ./bin/zkServer.sh status
+
 services:
 
-  zoo1:
+  zoo4:
     image: ${ZOOKEEPER_SERVER_IMAGE}
     #restart: always
-    hostname: zoo1
-    container_name: zoo1
+    hostname: zoo4
+    container_name: zoo4
     ports:
       - 2184:2181
-    #volumes:
-    #  - "/Users/shaozhipeng/Development/volume/zkcluster/zoo1/data:/data"
-    #  - "/Users/shaozhipeng/Development/volume/zkcluster/zoo1/datalog:/datalog"
+    volumes:
+      - "${VOLUME_PATH}/zoo4/data:/data"
+      - "${VOLUME_PATH}/zoo4/datalog:/datalog"
     environment:
       ZOO_MY_ID: 1
-      ZOO_SERVERS: server.1=0.0.0.0:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
+      ZOO_SERVERS: server.1=zoo4:2888:3888 server.2=zoo5:2888:3888 server.3=zoo6:2888:3888
     networks:
       dnet:
         ipv4_address: 172.32.0.11
 
-  zoo2:
+  zoo5:
     image: ${ZOOKEEPER_SERVER_IMAGE}
     #restart: always
-    hostname: zoo2
-    container_name: zoo2
+    hostname: zoo5
+    container_name: zoo5
     ports:
       - 2185:2181
-    #volumes:
-    #  - "/Users/shaozhipeng/Development/volume/zkcluster/zoo2/data:/data"
-    #  - "/Users/shaozhipeng/Development/volume/zkcluster/zoo2/datalog:/datalog"
+    volumes:
+      - "${VOLUME_PATH}/zoo5/data:/data"
+      - "${VOLUME_PATH}/zoo5/datalog:/datalog"
     environment:
       ZOO_MY_ID: 2
-      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=0.0.0.0:2888:3888 server.3=zoo3:2888:3888
+      ZOO_SERVERS: server.1=zoo4:2888:3888 server.2=zoo5:2888:3888 server.3=zoo6:2888:3888
     networks:
       dnet:
         ipv4_address: 172.32.0.12
 
-  zoo3:
+  zoo6:
     image: ${ZOOKEEPER_SERVER_IMAGE}
     #restart: always
-    hostname: zoo3
-    container_name: zoo3
+    hostname: zoo6
+    container_name: zoo6
     ports:
       - 2186:2181
-    #volumes:
-    #  - "/Users/shaozhipeng/Development/volume/zkcluster/zoo3/data:/data"
-    #  - "/Users/shaozhipeng/Development/volume/zkcluster/zoo3/datalog:/datalog"
+    volumes:
+      - "${VOLUME_PATH}/zoo6/data:/data"
+      - "${VOLUME_PATH}/zoo6/datalog:/datalog"
     environment:
       ZOO_MY_ID: 3
-      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=0.0.0.0:2888:3888
+      ZOO_SERVERS: server.1=zoo4:2888:3888 server.2=zoo5:2888:3888 server.3=zoo6:2888:3888
     networks:
       dnet:
         ipv4_address: 172.32.0.13

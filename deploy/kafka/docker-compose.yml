@@ -1,5 +1,8 @@
 version: '3.4'
 
+# 测试
+# bin/kafka-topics.sh --create --bootstrap-server kafka1:9092 --replication-factor 1 --partitions 1 --topic topic-test1
+
 services:
 
   kafka1:
@@ -12,20 +15,19 @@ services:
     ports:
       - 9092:9092
     environment:
-      BROKER_ID: 101
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      #BROKER_ID: 1
+      #TODO
+      KAFKA_LISTENERS: PLAINTEXT://kafka1:9092
+      #TODO
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9092
-      #KAFKA_ADVERTISED_HOST_NAME: kafka1
-      #KAFKA_ADVERTISED_HOST_NAME: 172.32.0.21
-      #KAFKA_ADVERTISED_PORT: 9092
-      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
+      KAFKA_ZOOKEEPER_CONNECT: zoo4:2181,zoo5:2181,zoo6:2181
     #volumes:
     #  - /Users/shaozhipeng/Development/volume/kfkluster/kafka1/logs:/kafka
     #链接未包含在当前docker-compose.yml中的容器
     external_links:
-      - zoo1
-      - zoo2
-      - zoo3
+      - zoo4
+      - zoo5
+      - zoo6
     networks:
       default:
         ipv4_address: 172.32.0.21
@@ -38,17 +40,14 @@ services:
     ports:
       - 9093:9092
     environment:
-      BROKER_ID: 102
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      #BROKER_ID: 2
+      KAFKA_LISTENERS: PLAINTEXT://kafka2:9092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:9092
-      #KAFKA_ADVERTISED_HOST_NAME: kafka2
-      #KAFKA_ADVERTISED_HOST_NAME: 172.32.0.22
-      #KAFKA_ADVERTISED_PORT: 9092
-      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
+      KAFKA_ZOOKEEPER_CONNECT: zoo4:2181,zoo5:2181,zoo6:2181
     external_links:
-      - zoo1
-      - zoo2
-      - zoo3
+      - zoo4
+      - zoo5
+      - zoo6
     networks:
       default:
         ipv4_address: 172.32.0.22
@@ -61,20 +60,42 @@ services:
     ports:
       - 9094:9092
     environment:
-      BROKER_ID: 103
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      #BROKER_ID: 3
+      KAFKA_LISTENERS: PLAINTEXT://kafka3:9092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka3:9092
-      #KAFKA_ADVERTISED_HOST_NAME: kafka3
-      #KAFKA_ADVERTISED_HOST_NAME: 172.32.0.23
-      #KAFKA_ADVERTISED_PORT: 9092
-      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
+      KAFKA_ZOOKEEPER_CONNECT: zoo4:2181,zoo5:2181,zoo6:2181
     external_links:
-      - zoo1
-      - zoo2
-      - zoo3
+      - zoo4
+      - zoo5
+      - zoo6
     networks:
       default:
         ipv4_address: 172.32.0.23
+
+  #https://github.com/yahoo/CMAK/blob/master/conf/application.conf
+  kafkaManager:
+    image: ${KAFKA_MANAGER_IMAGE}
+    #restart: always
+    container_name: kafka-manager
+    ports:
+      - 9000:9000
+    environment:
+      ZK_HOSTS: zoo4:2181,zoo5:2181,zoo6:2181
+      KAFKA_BROKERS: kafka1:9092,kafka2:9092,kafka3:9092
+      #KAFKA_MANAGER_AUTH_ENABLED: true
+      #APPLICATION_SECRET: letmein
+      #KM_ARGS: -Djava.net.preferIPv4Stack=true
+    links:
+      - kafka1
+      - kafka2
+      - kafka3
+    external_links:
+      - zoo4
+      - zoo5
+      - zoo6
+    networks:
+      default:
+        ipv4_address: 172.32.0.31
 
 networks:
   default:
