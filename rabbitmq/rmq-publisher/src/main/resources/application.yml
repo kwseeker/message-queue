@@ -1,0 +1,20 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: rmq-publisher
+  rabbitmq:
+    addresses: localhost:5672
+    username: guest
+    password: guest
+    virtual-host: /
+    connection-timeout: 10000
+    publisher-returns: true
+    publisher-confirm-type: simple
+    template:
+      mandatory: true
+    #自定义参数
+    retry-delay-time: 60        #消息投递失败后延迟投递s
+
+
+

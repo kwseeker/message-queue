@@ -5,6 +5,7 @@ import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
+import top.kwseeker.mq.rocketmq.Config;
 
 /**
  * 生产者：同步发送消息
@@ -14,7 +15,7 @@ public class Producer {
     public static void main(String[] args) throws MQClientException {
 
         //同一个生产者组其实是使用的同一个生产者实例
-        //roducer Group 作用如下:
+        //Producer Group 作用如下:
         //1. 标识一类 Producer
         //2. 可以通过运维工具查询返个収送消息应用下有多个 Producer 实例
         //3. 収送分布式事务消息时,如果 Producer 中途意外宕机,Broker 会主动回调 Producer Group 内的任意一台机器来确认事务状态。

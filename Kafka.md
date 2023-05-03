@@ -4,6 +4,8 @@
 [官方最新文档](https://kafka.apache.org/)  
 [awesome-kafka](https://github.com/search?o=desc&q=awesome-kafka&s=stars&type=Repositories)
 
+和RocketMQ很多概念都是相通的。
+
 Kafka具有高吞吐量、内置分区、支持消息副本和高容错的特性。  
 像其他消息队列一样，可用于流量削峰、异步、解耦合，以及用于日志聚合、事件监听（发布/订阅）。  
 但是Kafka不仅限于作为消息中间件，现在多用于大数据领域作为流处理平台。
@@ -24,7 +26,7 @@ Kafka具有高吞吐量、内置分区、支持消息副本和高容错的特性
 
   Kafka集群中的代理节点。可以理解为Kafka服务的门户，消息生产者和消费者都是通过它通信的。Broker节点都会注册到ZK中。
 
-+ **多分区**
++ **多分区**（对应RocketM中的多队列）
 
   分区指一个有序不变的存储消息的队列，一个Topic下可以有多个分区。  
   分区的消息数据会写入到`log.dir`指定的目录下topic名对应文件夹下的`*.log`二进制文件中，目录下还有个`*.index`是偏移索引、还有`*.timeindex`是时间索引；所以支持通过偏移量和时间进行定位写入。  

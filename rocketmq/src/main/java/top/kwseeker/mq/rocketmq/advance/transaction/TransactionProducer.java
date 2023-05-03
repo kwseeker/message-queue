@@ -6,7 +6,7 @@ import org.apache.rocketmq.client.producer.TransactionMQProducer;
 import org.apache.rocketmq.client.producer.TransactionSendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
-import top.kwseeker.mq.rocketmq.quickstart.Config;
+import top.kwseeker.mq.rocketmq.Config;
 
 import java.io.UnsupportedEncodingException;
 

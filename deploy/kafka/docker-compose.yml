@@ -82,8 +82,7 @@ services:
     environment:
       ZK_HOSTS: zoo4:2181,zoo5:2181,zoo6:2181
       KAFKA_BROKERS: kafka1:9092,kafka2:9092,kafka3:9092
-      #KAFKA_MANAGER_AUTH_ENABLED: true
-      #APPLICATION_SECRET: letmein
+      APPLICATION_SECRET: letmein
       #KM_ARGS: -Djava.net.preferIPv4Stack=true
     links:
       - kafka1
