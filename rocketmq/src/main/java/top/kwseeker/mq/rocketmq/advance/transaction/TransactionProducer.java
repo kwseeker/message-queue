@@ -16,7 +16,7 @@ public class TransactionProducer {
 
         TransactionMQProducer producer = new TransactionMQProducer("transaction-producer");
         producer.setNamesrvAddr(Config.NAMESRV_ADDR);
-        //事务执行的listener，用户实现接口提供本地事务执行代码实现（消息发送成功ＭＱ服务器返回确认后执行），以及回查本地事务处理结果的逻辑（MQ服务器一直收不到本地事务执行状态后执行）
+        //事务执行的listener，用户实现接口提供本地事务执行代码实现（消息发送成功MQ服务器返回确认后执行），以及回查本地事务处理结果的逻辑（MQ服务器一直收不到本地事务执行状态后执行）
         TransactionListener transactionListener = new TransactionListenerImpl();
         producer.setTransactionListener(transactionListener);
         producer.start();
