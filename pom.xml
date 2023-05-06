@@ -13,6 +13,7 @@
         <module>rocketmq</module>
         <module>rabbitmq</module>
         <module>zero-copy</module>
+        <module>spring-boot-rocketmq-example</module>
     </modules>
 
     <name>message-queue</name>
