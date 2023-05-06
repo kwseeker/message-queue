@@ -9,13 +9,12 @@
 #define BUF_SIZE 1024
 
 /*
-    将文件通过普通拷贝的方式拷贝多个副本
+    将文件通过普通拷贝的方式拷贝多个副本(read/write)
 */
 int main(int argc, char **argv) {
     int src_fd, dst_fd;
     char buf[BUF_SIZE];
-    struct stat stat_buf;
-    off_t offset = 0, file_size = 0;
+    ssize_t ret;
 
     if (argc != 3) {
         printf("Usage: %s <src_file> <dst_file>\n", argv[0]);
@@ -28,27 +27,23 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    fstat(src_fd, &stat_buf);
-    file_size = stat_buf.st_size;
-
-    for (int i = 0;) {
-    }
-
-    //只写打开，如果文件不存在则创建
-    dst_fd = open(argv[2], O_WRONLY|O_CREAT|O_TRUNC, stat_buf.st_mode);
+    dst_fd = open(argv[2], O_WRONLY|O_CREAT|O_TRUNC, 0666);
     if (dst_fd == -1) {
         printf("Open destination file failed.\n");
         close(src_fd);
         return -1;
     }
 
-    while (offset < file_size) {
-        size_t len = BUF_SIZE;
-        if ((offset + len) > file_size) {
-            len = file_size - offset;
-        }
-        ssize_t ret = sendfile(dst_fd, src_fd, &offset, len);
+    while (1) {
+        ret = read(src_fd, buf, BUF_SIZE);
         if (ret == -1) {
+            printf("Read source file failed.\n");
+            break;
+        } else if (ret == 0) {
+            break;
+        }
+
+        if (write(dst_fd, buf, ret) != ret) {
             printf("Write to destination file failed.\n");
             break;
         }
