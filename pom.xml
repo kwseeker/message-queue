@@ -12,6 +12,7 @@
         <module>kafka</module>
         <module>rocketmq</module>
         <module>rabbitmq</module>
+        <module>zero-copy</module>
     </modules>
 
     <name>message-queue</name>
